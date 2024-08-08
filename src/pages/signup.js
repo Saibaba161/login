@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { toast } from "react-toastify";
 
 const Signup = () => {
     const [email, setEmail] = useState('')
@@ -6,14 +7,19 @@ const Signup = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault()
-        console.log(email, password)
+        try {
+            console.log(email, password)
+            toast.success('Sign up success. Please Login')
+        }
+        catch(error) {
+            toast.error('Something is wrong')
+        }
     }
 
     return (
-        <div className="login-screen">
-            <div className="hero-image">
-            </div>
-        <form className="login-form" onSubmit={handleSubmit}>
+        <div className="signup-screen">
+            <div className="hero-image" />
+        <form className="signup-form" onSubmit={handleSubmit}>
             <h2>Signup</h2>
             <input 
                 type='email'
@@ -31,7 +37,7 @@ const Signup = () => {
 
             <button className='submit' type='submit'>Signup</button>
 
-            <div className="login-options">
+            <div className="signup-options">
                 <a href="/">Already Signed Up? Login</a>
             </div>
         </form>

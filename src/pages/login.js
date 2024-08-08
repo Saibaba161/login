@@ -11,8 +11,13 @@ const Login = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault()
-        console.log(email, password)
-        toast.success('Login Succesful')
+        try {
+            console.log(email, password)
+            toast.success('Login Succesful')
+        }
+        catch(error) {
+            toast.error('Invalid Credentials')
+        }
     }
 
     const handleSocial = (link) => {
@@ -27,7 +32,7 @@ const Login = () => {
                 window.open('https://www.facebook.com/login.php/')
                 break
             default:
-                toast.call('Invalid Options')
+                toast.info('Invalid Options')
         }
     }
 

@@ -8,14 +8,14 @@ const FGPassword = () => {
         e.preventDefault()
         console.log(email)
 
-        toast.success('We have sent an email to reset your password')
+        toast.success('An email has been sent to reset your password')
     }
 
     return (
-        <div className="login-screen">
+        <div className="password-screen">
         <div className="hero-image">
         </div>
-        <form className="login-form" onSubmit={handleSubmit}>
+        <form className="password-form" onSubmit={handleSubmit}>
             <h2>Forgot Password</h2>
             <input 
                 type='email'
