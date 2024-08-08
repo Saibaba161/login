@@ -13,6 +13,11 @@ const Login = () => {
         e.preventDefault()
         try {
             console.log(email, password)
+
+            if(!email || !password) {
+                toast.error('Please fill in all the fields')    
+            }
+            
             toast.success('Login Succesful')
         }
         catch(error) {
