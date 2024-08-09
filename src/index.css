@@ -37,8 +37,6 @@
 .login-form input,.signup-form input, .password-form input {
   width: 100%;
   padding: 0.8rem 1rem;
-  margin-bottom: 1rem;
-  border: 1px solid #ccc;
   border-radius: 4px;
   font-size: 1rem;
   font-family: Poppins;

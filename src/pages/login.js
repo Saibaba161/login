@@ -1,29 +1,67 @@
 import { useState } from "react";
 import { toast } from "react-toastify";
+import { TextField, Button, Grid, Typography } from '@mui/material';
+import {createTheme, ThemeProvider, styled} from '@mui/material/styles'
 
 import google from '../assets/google.svg';
 import instaicon from '../assets/instaicon.svg'
 import facebook from '../assets/facebook.svg'
 
+const theme = createTheme({
+  typography: {
+    fontFamily: 'Poppins',
+  },
+});
+
+const StyledTextField = styled(TextField) ({
+  '& .MuiOutlinedInput-root': {
+    '& fieldset': {
+      borderColor: '#ccc',
+    },
+    '&:hover fieldset': {
+      borderColor: '#ccc', // Keep the same on hover
+    },
+    '&.Mui-focused fieldset': {
+      borderColor: '#007bff', // Use your primary color for focus
+    },
+  },
+  '& .MuiInputBase-input': {
+    fontFamily: 'Poppins, sans-serif',
+    fontSize: '1rem',
+    padding: '0.8rem 1rem',
+  },
+})
+
 const Login = () => {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
+    const [emailError, setEmailError] = useState(false);
+    const [passwordError, setPasswordError] = useState(false);
 
     const handleSubmit = (e) => {
         e.preventDefault()
-        try {
-            console.log(email, password)
+        let hasError = false;
 
-            if(!email || !password) {
-                toast.error('Please fill in all the fields')    
-            }
-            
-            toast.success('Login Succesful')
-        }
-        catch(error) {
-            toast.error('Invalid Credentials')
-        }
+    if (!email) {
+      setEmailError(true);
+      hasError = true;
+    } else {
+      setEmailError(false);
     }
+
+    if (!password) {
+      setPasswordError(true);
+      hasError = true;
+    } else {
+      setPasswordError(false);
+    }
+
+    if (!hasError) {
+      console.log(email, password);
+      toast.success('Login Successful')
+    }
+  };
+
 
     const handleSocial = (link) => {
         switch(link) {
@@ -42,48 +80,81 @@ const Login = () => {
     }
 
     return (
+        <ThemeProvider theme={theme}>
         <div className="login-screen">
             <div className="hero-image" />
-        
-        <form className="login-form" onSubmit={handleSubmit}>
-            <h2>Login</h2>
-            <input 
-                type='email'
+
+        <form className="login-form" style={{'fontFamily': 'Poppins'}} onSubmit={handleSubmit}>
+        <Grid container direction="column" spacing={2}>
+            <Grid item>
+              <Typography variant="h4" align="center" gutterBottom>
+                Login
+              </Typography>
+            </Grid>
+
+            <Grid item>
+              <StyledTextField
+                id="email"
+                placeholder="Email"
+                variant="outlined"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                placeholder="Email"
-            />
+                error={emailError}
+                fullWidth
+                helperText={passwordError ? 'Email is required' : ''}
+                sx= {{
+                  '& .MuiFormHelperText-root': {
+                    border: "none"
+                  }
+                }}
+              />
+            </Grid>
 
-            <input
-                type='password'
+            <Grid item>
+              <StyledTextField
+                id="password"
+                placeholder="Password"
+                type="password"
+                variant="outlined"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                placeholder="Password"
-            />
+                error={passwordError}
+                helperText={passwordError ? 'Password is required' : ''}
+                fullWidth
+              />
+            </Grid>
 
-            <button className='submit' type='submit'>Login</button>
-
-            <div className="login-options">
-                <a href="/forgotpassword">Forgot Password?</a>
-            </div>
-
-            <div className="social-media-buttons">
-                <button className="social-media-button" onClick={() => handleSocial('google')}>
-                    <img src={google} alt="Google" className="social-media-icon"/>
-                </button>
-                <button className="social-media-button" onClick={() => handleSocial('facebook')}>
-                    <img src={facebook} alt="Facebook" className="social-media-icon"/>
-                </button>
-                <button className="social-media-button" onClick={() => handleSocial('instagram')}>
-                    <img src={instaicon} alt="Instagram" className="social-media-icon"/>
-                </button>
-            </div>
+            <Grid item>
+              <Button className="submit" type="submit" variant="contained">
+                Login
+              </Button>
+            </Grid>
 
             <div className="login-options">
-                <a href="signup">Don't have an account? Sign up</a>
+              <a href="/forgotpassword">Forgot Password?</a>
             </div>
+
+            <Grid item>
+              <div className="social-media-buttons">
+                <div className="social-media-button" onClick={() => handleSocial('instagram')}>
+                  <img src={instaicon} alt="Instagram" className="social-media-icon" />
+                </div>
+                <div className="social-media-button" onClick={() => handleSocial('facebook')}>
+                  <img src={facebook} alt="Facebook" className="social-media-icon" />
+                </div>
+                <div className="social-media-button" onClick={() => handleSocial('google')}>
+                  <img src={google} alt="Google" className="social-media-icon" />
+                </div>
+              </div>
+            </Grid>
+
+            <div className="login-options">
+              <a href="/signup">Don't have an account? Sign up</a>
+            </div>
+          </Grid>
         </form>
         </div>
+        </ThemeProvider>
     )
 }
 
